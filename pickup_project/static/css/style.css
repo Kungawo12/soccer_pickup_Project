@@ -1,0 +1,10 @@
+.home_body{
+    margin: 0;
+    padding: 0;
+    width: 1400px;
+    height: 50rem;
+    background-image: url(https://theanalyst.com/wp-content/uploads/2022/11/messi-vs-ronaldo-world-cup.jpg);
+    background-size: cover;
+    background-position: center;
+
+}
