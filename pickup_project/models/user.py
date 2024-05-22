@@ -30,3 +30,9 @@ class User:
             VALUES(%(first_name)s, %(last_name)s, %(email)s, %(password)s);
         """
         return connectToMySQL('pickup_project').query_db(query,data)
+    
+    @classmethod
+    def get_one_user(cls,data):
+        query = "SELECT * FROM users WHERE id = %(id)s"
+        result = connectToMySQL('pickup_project').query_db(query,data)
+        return cls(result[0])

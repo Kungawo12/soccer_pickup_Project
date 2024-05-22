@@ -41,3 +41,13 @@ def login_user():
         return redirect('/login')
     session['user_id'] = user.id
     return redirect('/dashboard')
+
+@app.route('/dashboard')
+def dashboard():
+    data = {
+        'id': session['user_id']
+    }
+    users =User.get_all_users()
+    return render_template('dashboard.html',user=User.get_one_user(data), users=users)
+    
+    
