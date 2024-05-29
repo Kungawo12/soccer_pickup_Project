@@ -49,5 +49,10 @@ def dashboard():
     }
     users =User.get_all_users()
     return render_template('dashboard.html',user=User.get_one_user(data), users=users)
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
     
     
