@@ -9,9 +9,15 @@
 
 }
 #register {
+    width: 40%;
     height: 100%;
     background-color: black;
     color: whitesmoke;
     margin: 20px;
     padding: 40px;
+}
+#login {
+    width: 30%;
+    height: 40%;
+    margin-top: 10%;
 }
