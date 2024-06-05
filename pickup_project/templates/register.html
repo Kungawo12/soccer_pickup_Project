@@ -1,0 +1,30 @@
+{%extends 'layout.html'%}
+{%block body%}
+<div class="container col-6">
+    <h1 class="text-center m-4">REGISTER</h1>
+    <form action="/register" method="post">
+        <div class="register-form" id="register" >
+        <div class="form-group m-3 p-2">
+            <label for="first_name">First Name:</label>
+            <input type="text" name="first_name" id="first_name">
+        </div>
+        <div class="form-group m-3 p-2">
+            <label for="last_name">Last Name:</label>
+            <input type="text" name="last_name" id="last_name">
+        </div>
+        <div class="form-group m-3 p-2">
+            <label for="email">Email:</label>
+            <input type="text" name="email" id="email">
+        </div>
+        <div class="form-group m-3 p-2">
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password">
+        </div>
+        <div class="form-grou m-3 p-2">
+            <label for="confirm_password">Confirm Password:</label>
+            <input type="confirm_password" name="confirm_password" id="confirm_password">
+        </div>
+    </div>
+    </form>
+</div>
+{%endblock%}

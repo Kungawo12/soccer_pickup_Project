@@ -16,7 +16,7 @@ class User:
     @classmethod
     def get_all_users(cls):
         query= "SELECT * FROM users"
-        results = connectToMySQL('pickup_project').query_db(query)
+        results = connectToMySQL('soccer_pickup_db').query_db(query)
         users = []
         
         for user in results:
@@ -29,15 +29,15 @@ class User:
         query = """INSERT INTO users(first_name,last_name,email,password)
             VALUES(%(first_name)s, %(last_name)s, %(email)s, %(password)s);
         """
-        return connectToMySQL('pickup_project').query_db(query,data)
+        return connectToMySQL('soccer_pickup_db').query_db(query,data)
     
     @classmethod
     def get_one_user(cls,data):
         query = "SELECT * FROM users WHERE id = %(id)s"
-        result = connectToMySQL('pickup_project').query_db(query,data)
+        result = connectToMySQL('soccer_pickup_db').query_db(query,data)
         return cls(result[0])
     
     @classmethod
     def delete(cls,data):
         query = "DELETE FROM users WHERE id = %(id)s"
-        return connectToMySQL('pickup_project').query_db(query,data)
+        return connectToMySQL('soccer_pickup_db').query_db(query,data)

@@ -8,3 +8,10 @@
     background-position: center;
 
 }
+#register {
+    height: 100%;
+    background-color: black;
+    color: whitesmoke;
+    margin: 20px;
+    padding: 40px;
+}
