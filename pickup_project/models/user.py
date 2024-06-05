@@ -38,6 +38,14 @@ class User:
         return cls(result[0])
     
     @classmethod
+    def get_by_email(cls,data):
+        query = "SELECT * FROM user WHERE email = %(email)s;"
+        results= connectToMySQL('soccer_pickup_db').query_db(query,data)
+        if len(results) < 1:
+            return False
+        return cls(results[0])
+    
+    @classmethod
     def delete(cls,data):
         query = "DELETE FROM users WHERE id = %(id)s"
         return connectToMySQL('soccer_pickup_db').query_db(query,data)
