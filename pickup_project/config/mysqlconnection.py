@@ -1,92 +1,54 @@
-from flask import render_template,request, redirect,session,flash
-from my_project_app import app
-from my_project_app.models.confession import Confession
-from my_project_app.models.user import User
+# a cursor is the object we use to interact with the database
+# import pymysql.cursors
+# import os
+# from dotenv import load_dotenv
 
 
+# load_dotenv()
 
-@app.route('/confession/new')
-def new_confession():
-    data = {
-        'id': session['user_id']
-    }
-    user = User.show_user(data)
-    return render_template('new_confession.html',user=user)
+# this class will give us an instance of a connection to our database
+class MySQLConnection:
+    def __init__(self, db):
+        # change the user and password as needed
+        connection = pymysql.connect(host = 'localhost',
+                                    user = os.environ.get('DB_USER'),
+                                    # os.environ.get('user'), 
+                                    password = os.environ.get('DB_PASSWORD'), 
+                                    # os.environ.get('password')
+                                    db = db,
+                                    charset = 'utf8mb4',
+                                    cursorclass = pymysql.cursors.DictCursor,
+                                    autocommit = False)
+        # establish the connection to the database
+        self.connection = connection
+    # the method to query the database
+    def query_db(self, query:str, data:dict=None):
+        with self.connection.cursor() as cursor:
+            try:
+                query = cursor.mogrify(query, data)
+                print("Running Query:", query)
 
-@app.route('/create/new', methods= ['POST'])
-def create_shows():
-    if not Confession.validate_confession(request.form):
-        return redirect('/confession/new')
-    title =  request.form['title']
-    data = {
-        "title" :title,
-        "category" : request.form["category"],
-        "story": request.form["story"],
-        "user_id": request.form["user_id"]
-    }
-    Confession.save_confession(data)
-    return redirect('/dashboard')
+                cursor.execute(query)
+                if query.lower().find("insert") >= 0:
+                    # INSERT queries will return the ID NUMBER of the row inserted
+                    self.connection.commit()
+                    return cursor.lastrowid
+                elif query.lower().find("select") >= 0:
+                    # SELECT queries will return the data from the database as a LIST OF DICTIONARIES
+                    result = cursor.fetchall()
+                    return result
+                else:
+                    # UPDATE and DELETE queries will return nothing
+                    self.connection.commit()
+            except Exception as e:
+                # if the query fails the method will return FALSE
+                print("Something went wrong", e)
+                return False
+            finally:
+                # close the connection
+                self.connection.close() 
+# connectToMySQL receives the database we're using and uses it to create an instance of MySQLConnection
+def connectToMySQL(db):
+    return MySQLConnection(db)
 
-@app.route('/confession/<int:id>', methods=['GET','POST'])
-def show_confession(id):
-    if request.method == 'POST':
-        user_id = request.form.get('user_id')  # Get user_id from form data
-        Confession.like_confession({'user_id': user_id, 'confession_id': id})
-        return redirect('/confession/'+str(id))  # Redirect back to the same page
 
-    data = {
-        'id': id
-    }
-    user_comment = Confession.get_all_comments({"confession_id": id})
-    confession = Confession.show_one_confession(data)
-    like_count = Confession.get_like_count(id)
-    return render_template('one_confession.html',confession=confession,comments=user_comment,like_count=like_count)
-
-@app.route('/confession/edit/<int:id>')
-def edit_confession(id):
-    user_data = {
-        'id': session['user_id']
-    }
-    data={
-        "id":id
-    }
-    return render_template('edit_confession.html',confession=Confession.show_one_confession(data),user=User.show_user(user_data))
-
-@app.route('/confession/update/<int:id>', methods=['POST'])
-def update_confession(id):
-    if not Confession.validate_confession(request.form):
-        return redirect('/confession/edit/'+str(id))
-    data = {
-        "id": id,
-        "title": request.form['title'],
-        "category": request.form['category'],
-        "story": request.form['story']
-    }
-    Confession.update_confession(data)
-    return redirect('/dashboard')
-
-@app.route('/confession/delete/<int:id>')
-def delete_confession(id):
-    data = {
-        'id': id
-    }
-    Confession.delete_confession(data)
-    return redirect('/dashboard')
-
-@app.route('/comment/<int:id>', methods=['POST'])
-def get_comments(id):
-    data = {
-        'user_id': session['user_id'],
-        'confession_id': id,
-        'text': request.form['text']
-    }
-    Confession.save_comment(data)
-    return redirect('/confession/'+str(id))
-    
-@app.route('/like_confession', methods=['POST'])
-def like_confession():
-    user_id = request.form.get('user_id')
-    confession_id = request.form.get('confession_id')
-    data = {'user_id': user_id, 'confession_id': confession_id}
-    Confession.like_confession(data)
-    return redirect('/confession/'+str(confession_id))
