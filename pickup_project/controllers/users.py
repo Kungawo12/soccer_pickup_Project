@@ -1,9 +1,10 @@
 from flask import render_template,request, redirect,session,flash
 from pickup_project import app
 from pickup_project.models.user import User
-from Flask_bcrypt import Bcrypt
+from flask_bcrypt import Bcrypt
 
 bcrypt = Bcrypt(app)
+
 @app.route('/')
 def home_page():
     return render_template('home.html')
