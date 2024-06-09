@@ -46,6 +46,7 @@ class User:
             return False
         return cls(results[0])
     
+    
     @classmethod
     def delete(cls,data):
         query = "DELETE FROM users WHERE id = %(id)s"
