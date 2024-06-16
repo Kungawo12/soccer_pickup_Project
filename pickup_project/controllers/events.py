@@ -12,11 +12,12 @@ def create_event():
     return render_template('new_event.html',user=user)
 
 @app.route('/new/event',methods=['POST'])
-def insert_new():
+def new_matches():
     data = {
         'name': request.form['name'],
         'location_name': request.form['location_name'],
         'date': request.form['date'],
+        'user_id': session['user_id']
     }
     Event.insert_new(data)
     return redirect('/dashboard')

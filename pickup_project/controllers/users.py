@@ -43,11 +43,13 @@ def login_user():
 
 @app.route('/dashboard')
 def dashboard():
+    from pickup_project.models.event import Event
     data = {
         'id': session['user_id']
     }
     users =User.get_all_users()
-    return render_template('dashboard.html',user=User.get_one_user(data), users=users)
+    user_events = Event.get_all_events()
+    return render_template('dashboard.html',user=User.get_one_user(data), users=users, user_events=user_events)
 
 @app.route('/logout')
 def logout():

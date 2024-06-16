@@ -7,15 +7,15 @@ class Event:
         self.id = data['id']
         self.name = data['name']
         self.location_name = data['location_name']
-        self.date= None
-        data['user'] = data['user']
+        self.date= data['date']
+        self.user = None
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
     
     @classmethod
     def insert_new(cls,data):
-        query = """INSERT INTO events(name,location_name,date)
-            VALUES(%(name)s, %(location_name)s, %(date)s);
+        query = """INSERT INTO events(name,location_name,date,user_id)
+            VALUES(%(name)s,%(location_name)s,%(date)s,%(user_id)s);
         """
         return connectToMySQL('soccer_pickup_db').query_db(query,data)
 
