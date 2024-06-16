@@ -25,14 +25,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {%for project in projects%}
+                    {%for user_data in user_events%}
                     <tr>
-                        <td>{{project.project_name}}</td>
-                        <td>{{project.description}}</td>
-                        <td>{{project.status}}</td>
+                        <td>{{user_data.name}}</td>
+                        <td>{{user_data.location_name}}</td>
+                        <td>{{user_data.date}}</td>
                         <td>
-                            <a href="/edit/{{project.id}}" class="btn btn-primary">Edit</a>
-                            <a href="/delete/{{project.id}}" class="btn btn-danger">Delete</a>
+                            <a href="/edit/event/{{user.id}}" class="btn btn-primary">Edit</a>
+                            <a href="/delete/event/{{user.id}}" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                     {%endfor%}
