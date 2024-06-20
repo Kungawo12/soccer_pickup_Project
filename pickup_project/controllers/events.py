@@ -21,3 +21,26 @@ def new_matches():
     }
     Event.insert_new(data)
     return redirect('/dashboard')
+
+@app.route('/edit/event/<int:id>')
+def edit_event(id):
+    user_data = {
+        'id': session['user_id']
+    }
+    data ={
+        'id': id
+    }
+    user = User.get_one_user(user_data)
+    event = Event.get_one_event(data)
+    return render_template('edit_event.html',user=user,event=event)
+
+@app.route('/update/event/<int:id>',methods=['POST'])
+def update_event(id):
+    data = {
+        id: id,
+        'name': request.form['name'],
+        'location_name': request.form['location_name'],
+        'date': request.form['date']
+    }
+    Event.update_event(data)
+    return redirect('/dashboard')

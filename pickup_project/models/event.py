@@ -43,3 +43,32 @@ class Event:
             
             users_events.append(events_data)
         return users_events
+    
+    @classmethod
+    def get_one_event(cls,data):
+        query= """SELECT * FROM events
+        JOIN users on events.user_id = users.id
+        WHERE events.id = %(id)s;
+        """
+        results = connectToMySQL('soccer_pickup_db').query_db(query,data)
+        events_data = results[0]
+        event_obj = Event(events_data)
+        user_obj = User({
+            "id": events_data["user_id"],
+            "first_name": events_data["first_name"],
+            'last_name': events_data['last_name'],
+            'email': events_data['email'],
+            'password': events_data['password'],
+            "created_at": events_data["created_at"],
+            "updated_at": events_data['updated_at']
+        })
+        event_obj.user = user_obj
+        return event_obj
+    
+    @classmethod
+    def update_event(cls,data):
+        query = """UPDATE events SET name = %(name)s, location_name = %(location_name)s, date = %(date)s
+        WHERE id = %(id)s;
+        """
+        return connectToMySQL('soccer_pickup_db').query_db(query,data)
+        

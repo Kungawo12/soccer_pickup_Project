@@ -1,0 +1,25 @@
+{%extends "layout.html"%}
+{%block body%}
+<div class="container col-6 p-2">
+    <h3 class="text-center m-4 p-4">Update New Event</h3>
+    <div class="navbar m-4">
+        <p class="fs-5">Mr {{user.first_name}}</p>
+        <a href="/dashboard" class="fs-5">Back</a>
+    </div>
+    <form action="/update/event/{{event.id}}" method="POST" class="bg-dark text-light p-4">
+        <div class="m-3">
+            <label for="name" class="form-label">Event Name:</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{event.name}}">
+        </div>
+        <div class="m-3">
+            <label for="location_name" class="form-label"> Location</label>
+            <input type="text" class="form-control" id="location_name" name="location_name" value = "{{event.location_name}}">
+        </div>
+        <div class="m-3">
+            <label for="date" class="form-label">Date:</label>
+            <input type="date" class="form-control" id="date" name="date" value="{{event.date}}">
+        </div>
+        <input type="submit" class="btn btn-primary m-3" value="Update">
+    </form>
+</div>
+{%endblock%}
