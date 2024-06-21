@@ -37,10 +37,18 @@ def edit_event(id):
 @app.route('/update/event/<int:id>',methods=['POST'])
 def update_event(id):
     data = {
-        id: id,
+        "id": id,
         'name': request.form['name'],
         'location_name': request.form['location_name'],
         'date': request.form['date']
     }
     Event.update_event(data)
+    return redirect('/dashboard')
+
+@app.route('/delete/event/<int:id>')
+def delete_event(id):
+    data = {
+        'id': id
+    }
+    Event.delete_event(data)
     return redirect('/dashboard')
