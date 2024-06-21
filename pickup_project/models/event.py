@@ -72,3 +72,8 @@ class Event:
         """
         return connectToMySQL('soccer_pickup_db').query_db(query,data)
         
+    @classmethod
+    def delete_event(cls,data):
+        query = "DELETE FROM events WHERE id = %(id)s;"
+        
+        return connectToMySQL('soccer_pickup_db').query_db(query,data)

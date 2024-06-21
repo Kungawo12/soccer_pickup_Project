@@ -29,7 +29,7 @@
                     <tr>
                         <td>{{user_data.name}}</td>
                         <td>{{user_data.location_name}}</td>
-                        <td>{{user_data.date}}</td>
+                        <td>{{ user_data.date.strftime('%Y-%m-%d') }}</td>
                         <td>
                             <a href="/edit/event/{{user.id}}" class="btn btn-primary">Edit</a>
                             <a href="/delete/event/{{user.id}}" class="btn btn-danger">Delete</a>
