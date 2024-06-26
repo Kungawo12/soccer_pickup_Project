@@ -27,7 +27,7 @@
                 <tbody>
                     {%for user_data in user_events%}
                     <tr>
-                        <td>{{user_data.name}}</td>
+                        <td><a href="/event/{{user_data.id}}">{{user_data.name}}</a></td>
                         <td>{{user_data.location_name}}</td>
                         <td>{{ user_data.date.strftime('%Y-%m-%d') }}</td>
                         <td>
